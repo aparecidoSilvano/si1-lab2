@@ -27,7 +27,7 @@ public class GerenciaMetas {
 	 * @param meta
 	 * @return
 	 */
-	public static boolean validaData(String dataLimite) throws Exception{
+	public static boolean validaData(String dataLimite) throws DataInvalidaException{
 		try {			
 			Date datapassada = df.parse(dataLimite);
 						
@@ -36,16 +36,21 @@ public class GerenciaMetas {
 			Calendar clMaximo = Calendar.getInstance();
 			clMaximo.add(Calendar.DAY_OF_YEAR, 42);
 			
-			if(datapassada.getTime() >= cDataMin.getTimeInMillis() && datapassada.getTime() <= clMaximo.getTimeInMillis()){
-				return true;
-			}
+//			if(datapassada.getTime() >= cDataMin.getTimeInMillis() && datapassada.getTime() <= clMaximo.getTimeInMillis()){
+//				return true;
+//			}
 			
-			throw new IllegalArgumentException("data invalida");
+			if(datapassada.getTime() >= cDataMin.getTimeInMillis()){
+				if(datapassada.getTime() <= clMaximo.getTimeInMillis()){
+					return true;
+				}else{
+					throw new DataInvalidaException("A data informada está além do limite maximo de seis semanas");
+				}
+			}else{
+				throw new DataInvalidaException("A data informada já passou");
+			}
 		} catch (ParseException e) {
-			System.err.println("problemas na converção da data passada");
+			throw new DataInvalidaException("Data invalida");
 		}
-		
-		
-		return false;
 	}
 }

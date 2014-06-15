@@ -45,14 +45,14 @@ public class Meta {
 	}
 
 
-	public Meta(String nome, String dataLimite){
+	public Meta(String nome, String dataLimite) throws DataInvalidaException{
 		try {
 			if(GerenciaMetas.validaData(dataLimite)){
 				this.dataLimite = dataLimite;
 				this.nome = nome;
 			}
-		} catch (Exception e) {
-			System.out.println("data invalida");
+		} catch (DataInvalidaException dataException) {
+			throw dataException;
 		}		
 	}
 

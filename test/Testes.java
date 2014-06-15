@@ -1,11 +1,13 @@
-import static org.junit.Assert.assertEquals;
-import models.GerenciaMetas;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import models.DataInvalidaException;
 import models.Meta;
 import models.dao.GenericDAOImpl;
 
 import org.junit.Test;
-
-import play.db.jpa.Transactional;
 
 
 public class Testes {
@@ -18,27 +20,39 @@ public class Testes {
 	 * -deve excluir as metas (uma por vez).
 	 */
 	
-	private GerenciaMetas gMetas = new GerenciaMetas();
 	private GenericDAOImpl dao = new GenericDAOImpl();
+	private List<Meta> metas = new ArrayList<>();
 	
 	@Test
-	@Transactional
-	public void deveAdicionarMeta() {		
-		// sendo uma meta, definida assim, "titulo", "data limite para ser cumprida, na forma yyyymmdd"
-		try{
-			
-			gMetas.addMeta(new Meta("terminar lab de si", "20140616"));
-			
-			gMetas.addMeta(new Meta("entender como o h2 fuciona", "20140615"));
-					
-			for (Meta meta : gMetas.getMetas()) {
-				System.out.println(meta.getNome());
-			}
-			assertEquals(2, gMetas.countMetas());
-
-		}catch(Exception e){
-			System.out.println("pegou uma exceção?");
-			assertEquals("data invalida", e.getMessage());
+	public void deveCriarMetas() {		
+		try {
+			Meta meta1 = new Meta("meta teste 1", "20140616");
+			Meta meta2 = new Meta("meta teste 2", "20140617");
+			Meta meta3 = new Meta("meta teste 3", "20140616");			
+		} catch (DataInvalidaException e) {
+			// err.
+			fail();
+		}	
+	}
+	
+	@Test
+	public void devePermitirMetasApenasComDatasVallidas(){
+		// formato de uma data yyyymmdd
+		
+		// tenta criar uma meta com uma data que já passou.
+		try {
+			Meta meta1 = new Meta("meta teste 1", "20140613");
+		} catch (DataInvalidaException e) {
+			assertEquals("A data informada já passou", e.getMessage());
+			// ok
+		}
+		
+		// tenta criar um meta com um data que excede o limite de 6 semanas
+		try {
+			Meta meta2 = new Meta("meta teste 1", "20141215");
+		} catch (DataInvalidaException e) {
+			assertEquals("A data informada está além do limite maximo de seis semanas", e.getMessage());
+			// ok
 		}
 	}
 

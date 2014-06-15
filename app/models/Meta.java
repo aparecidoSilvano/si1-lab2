@@ -24,6 +24,10 @@ public class Meta {
 	@Column(name = "status")
 	private boolean status;
 	
+	@Column(name = "prioridade")
+	private int prioridade;
+	
+	
 	public Meta(){
 		nome = "";
 		dataLimite = "";
@@ -77,6 +81,14 @@ public class Meta {
 		this.dataLimite = dataLimite;
 	}
 
+	public int getPrioridade() {
+		return prioridade;
+	}
+
+
+	public void setPrioridade(int prioridade) {
+		this.prioridade = prioridade;
+	}
 	
 	@Override
 	public int hashCode() {

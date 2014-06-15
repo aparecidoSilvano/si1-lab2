@@ -43,14 +43,14 @@ public class Application extends Controller {
      */
     @Transactional
 	public static Result novaMeta() {
-		// Todos os Livros do Banco de Dados
+		
 		List<Meta> result = getDao().findAllByClassName("Meta");
-		// O formulário dos Livros Preenchidos
+	
 		Form<Meta> filledForm = metaForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			return badRequest(views.html.metas.render(result, filledForm));
 		} else {
-			// Persiste o Livro criado
+			// Persiste a meta criada
 			getDao().persist(filledForm.get());
 			// Espelha no Banco de Dados
 			getDao().flush();
@@ -71,7 +71,22 @@ public class Application extends Controller {
  		}
  		return redirect(routes.Application.listaMetas());
  	}
-
+ 	
+ 	@Transactional
+ 	public static Result setStatusMeta(Long id){
+ 		long aux1 = id;
+ 		int aux2 = (int) aux1;
+ 		
+ 		Meta meta = (Meta) getDao().findAllByClassName("Meta").get(aux2);
+ 		meta.setNome("e ai deu certo?");
+ 		meta.setStatus(true);
+ 		getDao().remove(meta);
+ 		getDao().persist(meta);
+ 		getDao().flush();
+ 		
+ 		return redirect(routes.Application.listaMetas());
+ 	}
+ 	
 	public static GenericDAO getDao() {
 		return dao;
 	}

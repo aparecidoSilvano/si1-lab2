@@ -26,6 +26,7 @@
 							<th>Data limite</th>
 							<th>ID</th>
 							<th>feita</th>
+							
 
 						</tr>
 					</thead>
@@ -41,6 +42,11 @@
 									<input type="submit" class="btn btn-danger" value="Delete">
 								</form>
 							</td>
+							<td>
+								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
+									<input type="checkbox" value="">
+								</form>
+							</td>
 						</tr>
 						}
 					</tbody>
@@ -52,8 +58,9 @@
 
 			<form action="@routes.Application.novaMeta()" method="post">
 				<label for="nome"> Nome: </label> <input type="text" name="nome"
-					id="inputNome" class="form-control" required="required"> <input
-					type="submit" class="btn btn-primary" value="Create">
+				id="inputNome" class="form-control" required="required">
+				<input type="date" name="dataLimite" class="form-control"></input>
+				<input type="submit" class="btn btn-primary" value="Create">
 			</form>
 			
 		</div>

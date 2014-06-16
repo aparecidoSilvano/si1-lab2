@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.List;
 
+import models.DataInvalidaException;
+import models.GerenciaMetas;
 import models.Meta;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
@@ -9,7 +11,6 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
 
 public class Application extends Controller {
 	
@@ -18,23 +19,18 @@ public class Application extends Controller {
 	private static GenericDAO dao = new GenericDAOImpl();
 
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+    	return redirect(routes.Application.listaMetas());
     }
     
-   // testando
-    public static Result sobre(){
-    	//return ok("sobre");
-    	return ok(views.html.sobre.render(
-    			"Top 100 filmes Cult",
-    			play.core.PlayVersion.current())
-    			);
-    }
-    
+   
+    /*
+     * Lista as metas cadastradas a partir daquelas presentes no bd.
+     *
+     */
     @Transactional
     public static Result listaMetas(){
     	List<Meta> metas = getDao().findAllByClassName("Meta");
-    	
-    	return ok(views.html.metas.render(metas, metaForm));
+    	return ok(views.html.index.render(metas, metaForm));
     }
     
     
@@ -50,23 +46,28 @@ public class Application extends Controller {
 		if (filledForm.hasErrors()) {
 			return badRequest(views.html.metas.render(result, filledForm));
 		} else {
-			// Persiste a meta criada
+			
+			/*try {
+				GerenciaMetas.validaData(filledForm.get().getDataLimite());
+			} catch (DataInvalidaException e) {
+				return ok(views.html.sobre.render(e.getMessage(), "teste"));
+			}*/
+			
+//			Persiste a meta criada
 			getDao().persist(filledForm.get());
-			// Espelha no Banco de Dados
+			
 			getDao().flush();
 			return redirect(routes.Application.listaMetas());
 		}
 	}
     
- // Notação transactional sempre que o método fizer transação com o Banco de
- 	// Dados.
+
  	@Transactional
  	public static Result deletaMeta(Long id) {
- 		// Remove o Livro pelo Id
- 		
+ 		// Remove a meta pelo Id 		
  		if(id!= null){
  			getDao().removeById(Meta.class, id);
- 			// Espelha no banco de dados
+ 			
  			getDao().flush();
  		}
  		return redirect(routes.Application.listaMetas());
@@ -74,18 +75,28 @@ public class Application extends Controller {
  	
  	@Transactional
  	public static Result setStatusMeta(Long id){
- 		long aux1 = id;
- 		int aux2 = (int) aux1;
+// 		long aux1 = id;
+// 		int aux2 = (int) aux1;
+// 		
+// 		Meta meta = (Meta) getDao().findAllByClassName("Meta").get(aux2);
+// 		meta.setNome("e ai deu certo?");
+// 		meta.setStatus(true);
+// 		getDao().remove(meta);
+// 		getDao().persist(meta);
+// 		getDao().flush();
+ 		Meta meta = getDao().findByEntityId(Meta.class, id);
+ 		if(meta.getStatus()){
+ 			meta.setStatus(false);
+ 		}else{
+ 			meta.setStatus(true);
+ 		}
  		
- 		Meta meta = (Meta) getDao().findAllByClassName("Meta").get(aux2);
- 		meta.setNome("e ai deu certo?");
- 		meta.setStatus(true);
- 		getDao().remove(meta);
- 		getDao().persist(meta);
+ 		getDao().merge(meta);
  		getDao().flush();
- 		
  		return redirect(routes.Application.listaMetas());
  	}
+ 	
+ 	
  	
 	public static GenericDAO getDao() {
 		return dao;

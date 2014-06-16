@@ -55,6 +55,7 @@ public class GenericDAOImpl implements GenericDAO {
 		JPA.em().remove(objeto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findByAttributeName(String className,
 			String attributeName, String attributeValue) {

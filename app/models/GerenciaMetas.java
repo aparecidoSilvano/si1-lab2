@@ -47,7 +47,7 @@ public class GerenciaMetas {
 					throw new DataInvalidaException("A data informada está além do limite maximo de seis semanas");
 				}
 			}else{
-				throw new DataInvalidaException("A data informada já passou");
+				throw new DataInvalidaException("A data informada já passou ");
 			}
 		} catch (ParseException e) {
 			throw new DataInvalidaException("Data invalida");

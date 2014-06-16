@@ -3,16 +3,21 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+#GET     /                           controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-# Pagina Sobre
-GET     /sobre                           controllers.Application.sobre()
 
 # Pagina para listagem das metas
-GET     /listaMetas                        controllers.Application.listaMetas()
-POST    /listaMetas                		   controllers.Application.novaMeta()
-POST    /listaMetas/:id/delete             controllers.Application.deletaMeta(id: Long)
-POST    /listaMetas/:id/setStatusMeta            controllers.Application.setStatusMeta(id: Long)
+GET     /	                        controllers.Application.listaMetas()
+POST    /                  		    controllers.Application.novaMeta()
+POST    /:id/delete             	controllers.Application.deletaMeta(id: Long)
+POST    /:id/setStatusMeta          controllers.Application.setStatusMeta(id: Long)
+
+
+# Pagina para listagem das metas
+#GET     /listaMetas                        controllers.Application.listaMetas()
+#POST    /listaMetas                		   controllers.Application.novaMeta()
+#POST    /listaMetas/:id/delete             controllers.Application.deletaMeta(id: Long)
+#POST    /listaMetas/:id/setStatusMeta            controllers.Application.setStatusMeta(id: Long)

@@ -77,7 +77,7 @@ public class Meta {
 		return dataLimite;
 	}
 
-	public void setDataLimite(String dataLimite) {
+	public void setDataLimite(String dataLimite){
 		this.dataLimite = dataLimite;
 	}
 

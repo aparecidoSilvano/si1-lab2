@@ -47,11 +47,12 @@ public class Application extends Controller {
 			return badRequest(views.html.metas.render(result, filledForm));
 		} else {
 			
-			/*try {
+			try {
 				GerenciaMetas.validaData(filledForm.get().getDataLimite());
 			} catch (DataInvalidaException e) {
-				return ok(views.html.sobre.render(e.getMessage(), "teste"));
-			}*/
+//				return ok(views.html.sobre.render(e.getMessage(), "teste"));
+				return badRequest(views.html.metas.render(result, filledForm));
+			}
 			
 //			Persiste a meta criada
 			getDao().persist(filledForm.get());
@@ -75,15 +76,6 @@ public class Application extends Controller {
  	
  	@Transactional
  	public static Result setStatusMeta(Long id){
-// 		long aux1 = id;
-// 		int aux2 = (int) aux1;
-// 		
-// 		Meta meta = (Meta) getDao().findAllByClassName("Meta").get(aux2);
-// 		meta.setNome("e ai deu certo?");
-// 		meta.setStatus(true);
-// 		getDao().remove(meta);
-// 		getDao().persist(meta);
-// 		getDao().flush();
  		Meta meta = getDao().findByEntityId(Meta.class, id);
  		if(meta.getStatus()){
  			meta.setStatus(false);

@@ -1,5 +1,10 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +32,7 @@ public class Meta {
 	@Column(name = "prioridade")
 	private int prioridade;
 	
+	private final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
 	
 	public Meta(){
 		nome = "";
@@ -126,6 +132,19 @@ public class Meta {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+	
+	public int getSemanaDaMeta(){		
+		try {
+			Date dateAux = df.parse(getDataLimite());
+			Calendar cDataMeta = Calendar.getInstance();
+			cDataMeta.setTime(dateAux);
+			
+			return cDataMeta.get(Calendar.WEEK_OF_YEAR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		return -1;
 	}
 	
 }

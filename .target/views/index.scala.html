@@ -25,7 +25,8 @@
 							<th>Titulo</th>
 							<th>Data limite</th>
 							<th>ID</th>
-							<th>feita</th>
+							<th>Concluida</th>
+							<th>Semana do ano</th>
 							
 
 						</tr>
@@ -37,14 +38,15 @@
 							<td>@meta.getDataLimite()</td>
 							<td>@meta.getId()</td>
 							<td>@meta.getStatus()</td>
-							<td>
-								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
-									<input type="submit" class="btn btn-danger" value="Delete">
-								</form>
-							</td>
+							<td>@meta.getSemanaDaMeta()</td>
 							<td>
 								<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
 									<input type="submit" value="feita">
+								</form>
+							</td>
+							<td>
+								<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
+									<input type="submit" class="btn btn-danger" value="Delete">
 								</form>
 							</td>
 						</tr>

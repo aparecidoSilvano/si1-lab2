@@ -26,9 +26,9 @@ public class Testes {
 	@Test
 	public void deveCriarMetas() {		
 		try {
-			Meta meta1 = new Meta("meta teste 1", "20140616");
-			Meta meta2 = new Meta("meta teste 2", "20140617");
-			Meta meta3 = new Meta("meta teste 3", "20140616");			
+			Meta meta1 = new Meta("meta teste 1", "2014-06-17");
+			Meta meta2 = new Meta("meta teste 2", "2014-06-18");
+			Meta meta3 = new Meta("meta teste 3", "2014-07-04");			
 		} catch (DataInvalidaException e) {
 			// err.
 			fail();
@@ -37,11 +37,11 @@ public class Testes {
 	
 	@Test
 	public void devePermitirMetasApenasComDatasVallidas(){
-		// formato de uma data yyyymmdd
+		// formato de uma data yyyy-mm-dd
 		
 		// tenta criar uma meta com uma data que já passou.
 		try {
-			Meta meta1 = new Meta("meta teste 1", "20140613");
+			Meta meta1 = new Meta("meta teste 1", "2014-06-13");
 		} catch (DataInvalidaException e) {
 			assertEquals("A data informada já passou", e.getMessage());
 			// ok
@@ -49,7 +49,7 @@ public class Testes {
 		
 		// tenta criar um meta com um data que excede o limite de 6 semanas
 		try {
-			Meta meta2 = new Meta("meta teste 1", "20141215");
+			Meta meta2 = new Meta("meta teste 1", "2014-06-30");
 		} catch (DataInvalidaException e) {
 			assertEquals("A data informada está além do limite maximo de seis semanas", e.getMessage());
 			// ok

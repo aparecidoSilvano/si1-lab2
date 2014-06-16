@@ -1,4 +1,4 @@
-@(metas: List[Meta], metaForm: Form[Meta])
+@(metas: List[Meta], metaForm: Form[Meta])(mensagemDeErro : String)
 
 
 <!DOCTYPE html>
@@ -64,6 +64,7 @@
 				<input type="date" name="dataLimite" class="form-control"></input>
 				<input type="submit" class="btn btn-primary" value="Create">
 			</form>
+			<h2>@mensagemDeErro</h2>
 			
 		</div>
 	</div>

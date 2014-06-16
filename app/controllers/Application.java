@@ -18,7 +18,10 @@ public class Application extends Controller {
 			Form.form(Meta.class);
 	private static GenericDAO dao = new GenericDAOImpl();
 
+	private static String mensagemErro = "";
+	
     public static Result index() {
+    	resetaMensagemDeErro();
     	return redirect(routes.Application.listaMetas());
     }
     
@@ -30,7 +33,7 @@ public class Application extends Controller {
     @Transactional
     public static Result listaMetas(){
     	List<Meta> metas = getDao().findAllByClassName("Meta");
-    	return ok(views.html.index.render(metas, metaForm));
+    	return ok(views.html.index.render(metas, metaForm, mensagemErro));
     }
     
     
@@ -39,7 +42,7 @@ public class Application extends Controller {
      */
     @Transactional
 	public static Result novaMeta() {
-		
+    	resetaMensagemDeErro();
 		List<Meta> result = getDao().findAllByClassName("Meta");
 	
 		Form<Meta> filledForm = metaForm.bindFromRequest();
@@ -50,8 +53,8 @@ public class Application extends Controller {
 			try {
 				GerenciaMetas.validaData(filledForm.get().getDataLimite());
 			} catch (DataInvalidaException e) {
-//				return ok(views.html.sobre.render(e.getMessage(), "teste"));
-				return badRequest(views.html.metas.render(result, filledForm));
+				mensagemErro = e.getMessage();
+				return redirect(routes.Application.listaMetas());				
 			}
 			
 //			Persiste a meta criada
@@ -65,6 +68,7 @@ public class Application extends Controller {
 
  	@Transactional
  	public static Result deletaMeta(Long id) {
+ 		resetaMensagemDeErro();
  		// Remove a meta pelo Id 		
  		if(id!= null){
  			getDao().removeById(Meta.class, id);
@@ -76,6 +80,8 @@ public class Application extends Controller {
  	
  	@Transactional
  	public static Result setStatusMeta(Long id){
+ 		resetaMensagemDeErro();
+ 		
  		Meta meta = getDao().findByEntityId(Meta.class, id);
  		if(meta.getStatus()){
  			meta.setStatus(false);
@@ -97,5 +103,8 @@ public class Application extends Controller {
 	public static void setDao(GenericDAO dao) {
 		Application.dao = dao;
 	}
-
+	
+	private static void resetaMensagemDeErro(){
+		mensagemErro = "";
+	}
 }

@@ -64,6 +64,13 @@ List[Integer])(mensagemDeErro : String)
 										</form>
 									</td>
 									<td>
+										<form action="/editar" method="post">
+											<a href="/editar">
+												<input type="submit" class="btn" id="@meta.getId()" name="ID" value="@meta.getId()" > 
+											</a>
+										</form>
+									</td>
+									<td>
 										<form action="@routes.Application.deletaMeta(meta.getId())"method="post">
 											<input type="submit" class="btn btn-danger" value="Delete">
 										</form>

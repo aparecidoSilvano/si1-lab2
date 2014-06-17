@@ -9,10 +9,12 @@ import models.GerenciaMetas;
 import models.Meta;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.editar;
 
 public class Application extends Controller {
 	
@@ -108,6 +110,28 @@ public class Application extends Controller {
  		return redirect(routes.Application.listaMetas());
  	}
  	
+ 	@Transactional
+ 	public static Result preEdita(){
+ 		DynamicForm requestData = Form.form().bindFromRequest();
+		long id = Long.parseLong(requestData.get("ID"));		
+		
+		Form<Meta> metaForm = Form.form(Meta.class).fill(getDao().findByEntityId(Meta.class, id));
+
+		return ok(editar.render(id, metaForm));
+ 	}
+ 	
+ 	@Transactional
+	public static Result editarMeta(Long id) {
+		Form<Meta> metaForm = Form.form(Meta.class).fill(getDao().findByEntityId(Meta.class, id));
+		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
+		if (alterarForm.hasErrors()) {
+			return badRequest(editar.render(id, alterarForm));
+		}
+		
+		getDao().merge(alterarForm.get());
+		getDao().flush();
+		return redirect(routes.Application.listaMetas());
+	}
  	
  	
 	public static GenericDAO getDao() {

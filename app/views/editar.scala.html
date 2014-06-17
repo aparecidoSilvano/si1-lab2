@@ -1,0 +1,47 @@
+@(id: Long,  meta: Form[models.Meta])
+@import helper._
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+	
+	<body>
+		<div class="col-md-6" style="width: 1000px"><
+			<div class="panel panel-primary" style=" width: 800px; margin-left: 200px; margin-right:50px ;margin-top: 60px;">
+				<div class="panel-heading" style="background-color: #4c4c4c">Editar a meta
+					<div class="panel-body">
+						<div class="alert alert-success">
+							<button type="button" class="close" data-dismiss="alert">x</button>
+							<h4>Aviso</h4>
+							Edite as Informações abaixo
+						</div>
+						
+						<!-- pegas os dados pelo form -->
+						@form(routes.Application.editarMeta(id)) {
+							<div class="form-group">
+								@inputText(meta("nome"), '_label -> "Nome", 'class -> "form-control")
+								
+								@inputDate(meta("dataLimite"), '_label -> "Data para conclusão", 'class -> "form-control")
+								
+								@if(flash.contains("success")) {
+                					<center><p class="success" style="color:#ef5959">
+                   				 	@flash.get("success")
+                					</p></center>
+            					}
+							</div>
+							<div align="left" style="margin-left: 100px; margin-bottom: -47px;">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						}
+						
+						<div align="left">
+								<a href="@routes.Application.listaMetas()"">
+								<button type="submit" class="btn btn-primary">Cancelar</button>
+							</div>
+					</div>
+				</div>			
+			</div>			
+		</div>	
+	</body>
+</html>

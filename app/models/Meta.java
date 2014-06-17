@@ -140,7 +140,9 @@ public class Meta {
 			Calendar cDataMeta = Calendar.getInstance();
 			cDataMeta.setTime(dateAux);
 			
-			return cDataMeta.get(Calendar.WEEK_OF_YEAR);
+			Calendar atual = Calendar.getInstance();
+			
+			return cDataMeta.get(Calendar.WEEK_OF_YEAR) - atual.get(Calendar.WEEK_OF_YEAR) +1;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}		

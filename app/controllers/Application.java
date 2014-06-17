@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.DataInvalidaException;
@@ -33,7 +34,17 @@ public class Application extends Controller {
     @Transactional
     public static Result listaMetas(){
     	List<Meta> metas = getDao().findAllByClassName("Meta");
-    	return ok(views.html.index.render(metas, metaForm, mensagemErro));
+    	
+    	List<Integer> semanas = new ArrayList<>();
+		
+		int aux = 0;
+		for (Meta meta : metas) {
+			if(aux != meta.getSemanaDaMeta()){
+				aux = meta.getSemanaDaMeta();
+				semanas.add(aux);
+			}
+		}
+    	return ok(views.html.index.render(metas, metaForm, semanas,mensagemErro));
     }
     
     

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "Meta")
-public class Meta {
+public class Meta implements Comparable<Meta>{
 	@Id
 	@SequenceGenerator(name = "META_SEQUENCE", sequenceName = "META_SEQUENCE", allocationSize = 1, initialValue = 0)
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -149,4 +149,17 @@ public class Meta {
 		return -1;
 	}
 	
+	public Date getData(){
+		try {
+			Date date = df.parse(dataLimite);
+			return date;
+		} catch (ParseException e) {
+			return new Date();
+		}
+	}
+	
+	@Override
+	public int compareTo(Meta metaO) {
+		return getData().compareTo(metaO.getData());
+	}
 }

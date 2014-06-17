@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import models.DataInvalidaException;
@@ -34,8 +35,10 @@ public class Application extends Controller {
     @Transactional
     public static Result listaMetas(){
     	List<Meta> metas = getDao().findAllByClassName("Meta");
+    	Collections.sort(metas);
     	
     	List<Integer> semanas = new ArrayList<>();
+    	Collections.sort(semanas);
 		
 		int aux = 0;
 		for (Meta meta : metas) {

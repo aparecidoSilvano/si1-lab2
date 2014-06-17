@@ -46,9 +46,6 @@ List[Integer])(mensagemDeErro : String)
 							<th>Data limite</th>
 							<th>ID</th>
 							<th>Concluida</th>
-							<th>Semana do ano</th>
-							
-
 						</tr>
 					</thead>
 
@@ -61,7 +58,6 @@ List[Integer])(mensagemDeErro : String)
 									<td>@meta.getDataLimite()</td>
 									<td>@meta.getId()</td>
 									<td>@meta.getStatus()</td>
-									<td>@meta.getSemanaDaMeta()</td>
 									<td>
 										<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
 											<input type="submit" value="feita">

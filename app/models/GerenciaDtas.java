@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class GerenciaMetas {
+public class GerenciaDtas {
 
 	private final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
 
@@ -26,10 +26,7 @@ public class GerenciaMetas {
 									
 			Calendar clMaximo = Calendar.getInstance();
 			clMaximo.add(Calendar.DAY_OF_YEAR, 42);
-			
-			String info = "semana do ano " + cDataMeta.get(Calendar.WEEK_OF_YEAR)+ " dia = " + cDataMeta.get(Calendar.DAY_OF_MONTH)+ ", mês = " + cDataMeta.get(Calendar.MONTH) + ", ano = " + cDataMeta.get(Calendar.YEAR);
-			System.out.println(info + " é valida " +(cDataMeta.after(cDataMin) && cDataMeta.before(clMaximo)));
-			
+							
 			if(cDataMeta.after(cDataMin)){
 				if(cDataMeta.before(clMaximo)){
 					return true;
@@ -42,18 +39,5 @@ public class GerenciaMetas {
 		} catch (ParseException e) {
 			throw new DataInvalidaException("Data invalida");
 		}
-	}
-	
-	public int semanaDaMeta(String data){		
-		try {
-			Date dateAux = df.parse(data);
-			Calendar cDataMeta = Calendar.getInstance();
-			cDataMeta.setTime(dateAux);
-			
-			return cDataMeta.get(Calendar.WEEK_OF_YEAR);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}		
-		return 0;
 	}
 }

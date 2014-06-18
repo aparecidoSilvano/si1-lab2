@@ -1,13 +1,15 @@
 @(id: Long,  meta: Form[models.Meta])
 @import helper._
 
+
 <html>
 	<head>
 		<meta charset="UTF-8">
-<!-- 		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> -->
-	<link
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+	</head>
+	<!-- <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen">
+	rel="stylesheet" media="screen"> -->
 	<body>
 		<div class="col-md-6" style="width: 1000px">
 			<div class="panel panel-primary" style=" width: 800px; margin-left: 200px; margin-right:50px ;margin-top: 60px;">
@@ -22,6 +24,8 @@
 						@form(routes.Application.editarMeta(id)) {
 							<div class="form-group">
 								@inputText(meta("nome"), '_label -> "Nome", 'class -> "form-control")
+								
+								@inputText(meta("descricao"), '_label -> "Descricao", 'class -> "form-control")
 								
 								@inputDate(meta("dataLimite"), '_label -> "Data para conclusão", 'class -> "form-control")
 								

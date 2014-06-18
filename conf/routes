@@ -12,7 +12,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 # Pagina para listagem das metas
 GET     /	                        controllers.Application.listaMetas()
 POST    /                  		    controllers.Application.novaMeta()
-POST	/editar						controllers.Application.preEdita()
+POST	/:id/editar					controllers.Application.preEdita(id: Long)
 POST   	/concluirEdicao				controllers.Application.editarMeta(id: Long)
 POST    /:id/delete             	controllers.Application.deletaMeta(id: Long)
 POST    /:id/setStatusMeta          controllers.Application.setStatusMeta(id: Long)

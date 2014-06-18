@@ -10,14 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 @Entity(name = "Meta")
 public class Meta implements Comparable<Meta>{
 	@Id
-	@SequenceGenerator(name = "META_SEQUENCE", sequenceName = "META_SEQUENCE", allocationSize = 1, initialValue = 0)
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	@Column(name = "id")
 	private Long id;
 	
 	@Column(name = "nome")
@@ -29,14 +26,16 @@ public class Meta implements Comparable<Meta>{
 	@Column(name = "status")
 	private boolean status;
 	
-	@Column(name = "prioridade")
-	private int prioridade;
+		
+	@Column(name = "descricao")
+	private String descricao;
 	
 	private final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
 	
 	public Meta(){
 		nome = "";
 		dataLimite = "";
+		descricao = "";
 		status = false;
 	}
 	
@@ -51,9 +50,9 @@ public class Meta implements Comparable<Meta>{
 	}
 
 
-	public Meta(String nome, String dataLimite) throws DataInvalidaException{
+	public Meta(String nome, String descricao, String dataLimite) throws DataInvalidaException{
 		try {
-			if(GerenciaMetas.validaData(dataLimite)){
+			if(GerenciaDtas.validaData(dataLimite)){
 				this.dataLimite = dataLimite;
 				this.nome = nome;
 			}
@@ -87,25 +86,31 @@ public class Meta implements Comparable<Meta>{
 		this.dataLimite = dataLimite;
 	}
 
-	public int getPrioridade() {
-		return prioridade;
+		
+	public String getDescricao() {
+		return descricao;
 	}
 
 
-	public void setPrioridade(int prioridade) {
-		this.prioridade = prioridade;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((dataLimite == null) ? 0 : dataLimite.hashCode());
+		result = prime * result
+				+ ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -121,6 +126,11 @@ public class Meta implements Comparable<Meta>{
 				return false;
 		} else if (!dataLimite.equals(other.dataLimite))
 			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -131,9 +141,12 @@ public class Meta implements Comparable<Meta>{
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (status != other.status)
+			return false;
 		return true;
 	}
-	
+
+
 	public int getSemanaDaMeta(){		
 		try {
 			Date dateAux = df.parse(getDataLimite());
@@ -162,4 +175,14 @@ public class Meta implements Comparable<Meta>{
 	public int compareTo(Meta metaO) {
 		return getData().compareTo(metaO.getData());
 	}
+	
+	public String getStatusTexto(){
+		if(getStatus()){
+			return "Sim";
+		}else{
+			return "Não";
+		}
+	}
+	
+	
 }

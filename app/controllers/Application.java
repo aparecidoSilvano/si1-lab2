@@ -5,11 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import models.DataInvalidaException;
-import models.GerenciaMetas;
+import models.GerenciaDtas;
 import models.Meta;
 import models.dao.GenericDAO;
 import models.dao.GenericDAOImpl;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -28,7 +27,6 @@ public class Application extends Controller {
     	resetaMensagemDeErro();
     	return redirect(routes.Application.listaMetas());
     }
-    
    
     /*
      * Lista as metas cadastradas a partir daquelas presentes no bd.
@@ -36,7 +34,11 @@ public class Application extends Controller {
      */
     @Transactional
     public static Result listaMetas(){
-    	List<Meta> metas = getDao().findAllByClassName("Meta");
+    	List<Meta> metas = getDao().findAllByClassName("Meta");    
+    	
+    	System.out.println(metas.size());
+    	//metas.addAll(geraMetasParaTeste());
+    	// ordena as metas pela semana.
     	Collections.sort(metas);
     	
     	List<Integer> semanas = new ArrayList<>();
@@ -51,9 +53,9 @@ public class Application extends Controller {
 		}
     	return ok(views.html.index.render(metas, metaForm, semanas,mensagemErro));
     }
-    
-    
-    /*
+        
+
+	/*
      * Cria uma nova meta
      */
     @Transactional
@@ -67,7 +69,7 @@ public class Application extends Controller {
 		} else {
 			
 			try {
-				GerenciaMetas.validaData(filledForm.get().getDataLimite());
+				GerenciaDtas.validaData(filledForm.get().getDataLimite());
 			} catch (DataInvalidaException e) {
 				mensagemErro = e.getMessage();
 				return redirect(routes.Application.listaMetas());				
@@ -97,7 +99,7 @@ public class Application extends Controller {
  	@Transactional
  	public static Result setStatusMeta(Long id){
  		resetaMensagemDeErro();
- 		
+ 		//System.out.println(id);
  		Meta meta = getDao().findByEntityId(Meta.class, id);
  		if(meta.getStatus()){
  			meta.setStatus(false);
@@ -111,18 +113,13 @@ public class Application extends Controller {
  	}
  	
  	@Transactional
- 	public static Result preEdita(){
- 		DynamicForm requestData = Form.form().bindFromRequest();
-		long id = Long.parseLong(requestData.get("ID"));		
-		
+ 	public static Result preEdita(Long id){
 		Form<Meta> metaForm = Form.form(Meta.class).fill(getDao().findByEntityId(Meta.class, id));
-
 		return ok(editar.render(id, metaForm));
  	}
  	
  	@Transactional
 	public static Result editarMeta(Long id) {
-		Form<Meta> metaForm = Form.form(Meta.class).fill(getDao().findByEntityId(Meta.class, id));
 		Form<Meta> alterarForm = Form.form(Meta.class).bindFromRequest();
 		if (alterarForm.hasErrors()) {
 			return badRequest(editar.render(id, alterarForm));

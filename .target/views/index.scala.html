@@ -10,7 +10,6 @@ List[Integer])(mensagemDeErro : String)
 <meta name=description content="">
 <meta name=viewport content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap CSS -->
 <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen">
@@ -21,10 +20,13 @@ List[Integer])(mensagemDeErro : String)
 			<h2 class="text-center">Adicione uma nova Meta</h2>
 
 			<form action="@routes.Application.novaMeta()" method="post">
-				<label for="nome"> Nome: </label> <input type="text" name="nome"
-					id="inputNome" class="form-control" required="required"> <input
-					type="date" name="dataLimite" class="form-control"></input> <input
-					type="submit" class="btn btn-primary" value="Create">
+				<label for="nome"> Nome: </label> 
+				<input type="text" name="nome" id="inputNome" class="form-control" required="required">
+				<label for="nome"> Descrição: </label> 
+				<input type="text" name="descricao" id="inputNome" class="form-control" required="required"> 
+				<label for="nome"> Data: </label> 
+				<input type="date" name="dataLimite" class="form-control"></input>
+				<input type="submit" class="btn btn-primary" value="Create">
 			</form>
 			<h2>@mensagemDeErro</h2>
 		</div>
@@ -43,8 +45,8 @@ List[Integer])(mensagemDeErro : String)
 						<thead>
 						<tr>
 							<th>Titulo</th>
-							<th>Data limite</th>
-							<th>ID</th>
+							<th>Descrição</th>
+							<th>Data limite</th>							
 							<th>Concluida</th>
 						</tr>
 					</thead>
@@ -55,18 +57,18 @@ List[Integer])(mensagemDeErro : String)
 								@if(meta.getSemanaDaMeta() == semana){
 									<tr>
 									<td>@meta.getNome()</td>
-									<td>@meta.getDataLimite()</td>
-									<td>@meta.getId()</td>
-									<td>@meta.getStatus()</td>
+									<td>@meta.getDescricao()</td>
+									<td>@meta.getDataLimite()</td>									
+									<td>@meta.getStatusTexto()</td>
 									<td>
 										<form action="@routes.Application.setStatusMeta(meta.getId())"method="post">
-											<input type="submit" value="feita">
+											<input type="submit" class="btn btn-default" value="Concluir">
 										</form>
 									</td>
 									<td>
-										<form action="/editar" method="post">
+										<form action="@routes.Application.preEdita(meta.getId())" method="post">
 											<a href="/editar">
-												<input type="submit" class="btn" id="@meta.getId()" name="ID" value="@meta.getId()" > 
+												<input type="submit" class="btn btn-primary" value="Editar" > 
 											</a>
 										</form>
 									</td>

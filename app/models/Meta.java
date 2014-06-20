@@ -49,7 +49,7 @@ public class Meta implements Comparable<Meta>{
 	public Meta(String descricao, String dataLimite) throws DataInvalidaException{
 		try {
 			setDescricao(descricao);
-			if(GerenciaDtas.validaData(dataLimite)){
+			if(GerenciaDatas.validaData(dataLimite)){
 				this.dataLimite = dataLimite;
 			}
 		} catch (DataInvalidaException dataException) {
@@ -138,7 +138,7 @@ public class Meta implements Comparable<Meta>{
 			
 			Calendar atual = Calendar.getInstance();
 			
-			return cDataMeta.get(Calendar.WEEK_OF_YEAR) - atual.get(Calendar.WEEK_OF_YEAR) +1;
+			return cDataMeta.get(Calendar.WEEK_OF_YEAR) - atual.get(Calendar.WEEK_OF_YEAR) + 1;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}		

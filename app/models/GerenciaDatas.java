@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class GerenciaDtas {
+public class GerenciaDatas {
 
 	private final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
 
@@ -26,7 +26,7 @@ public class GerenciaDtas {
 									
 			Calendar clMaximo = Calendar.getInstance();
 			clMaximo.add(Calendar.DAY_OF_YEAR, 42);
-							
+			
 			if(cDataMeta.after(cDataMin)){
 				if(cDataMeta.before(clMaximo)){
 					return true;

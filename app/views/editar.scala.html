@@ -5,7 +5,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+		<link rel="stylesheet" media="screen"
+		href="@routes.Assets.at("stylesheets/main.css")">
 	</head>
 	<!-- <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
@@ -23,8 +24,6 @@
 						<!-- pegas os dados pelo form -->
 						@form(routes.Application.editarMeta(id)) {
 							<div class="form-group">
-								@inputText(meta("nome"), '_label -> "Nome", 'class -> "form-control")
-								
 								@inputText(meta("descricao"), '_label -> "Descricao", 'class -> "form-control")
 								
 								@inputDate(meta("dataLimite"), '_label -> "Data para conclusão", 'class -> "form-control")

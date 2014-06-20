@@ -31,10 +31,10 @@ public class GerenciaDtas {
 				if(cDataMeta.before(clMaximo)){
 					return true;
 				}else{
-					throw new DataInvalidaException("A data informada está além do limite maximo de seis semanas");
+					throw new DataInvalidaException("A data informada está além do limite maximo de seis semanas.");
 				}
 			}else{
-				throw new DataInvalidaException("A data informada já passou");
+				throw new DataInvalidaException("Você não pode usar essa data, pois ela já passou.");
 			}
 		} catch (ParseException e) {
 			throw new DataInvalidaException("Data invalida");

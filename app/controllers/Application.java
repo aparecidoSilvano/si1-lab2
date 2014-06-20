@@ -33,7 +33,10 @@ public class Application extends Controller {
      *
      */
     @Transactional
-    public static Result listaMetas(){
+    public static Result listaMetas(){   
+    	
+    	povoaLista();
+ 
     	List<Meta> metas = getDao().findAllByClassName("Meta");    
     	
     	System.out.println(metas.size());
@@ -55,17 +58,91 @@ public class Application extends Controller {
     }
         
 
+	private static void povoaLista() {
+		if(getDao().findAllByClassName("Meta").isEmpty()){
+			try{
+				Meta meta1 = new Meta("fazer a correção dos lab que a mim forem alocados", "2014-07-02");
+				getDao().persist(meta1);
+			}catch (DataInvalidaException e) {
+				
+			}
+			try{
+				Meta meta2 = new Meta("resolver problema de documentação", "2014-07-05");
+				getDao().persist(meta2);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta3 = new Meta("limpar meu quarto", "2014-07-05");
+				getDao().persist(meta3);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta4 = new Meta("começar regime", "2014-07-07");
+				getDao().persist(meta4);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta5 = new Meta("correr de manhã ou no final do dia", "2014-07-07");
+				getDao().persist(meta5);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta6 = new Meta("fazer exames medicos", "2014-07-09");
+				getDao().persist(meta6);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta7 = new Meta("ir no oftalmologista, fazer exames de rotina para ver estado da pressão do olho", "2014-07-15");
+				getDao().persist(meta7);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta8 = new Meta("fazer manutenção no carro", "2014-07-22");
+				getDao().persist(meta8);
+			}catch (DataInvalidaException e) {
+				
+			}
+			
+			try{
+				Meta meta9 = new Meta("ver a seleção brasileira ser campeã do mundo", "2014-07-13");
+				getDao().persist(meta9);
+			}catch (DataInvalidaException e) {
+				
+			}
+			try {			
+				Meta meta10 = new Meta("ver resultado do regime", "2014-07-31");
+				getDao().persist(meta10);				
+			} catch (DataInvalidaException e) {
+				
+			}
+        	
+    		
+    	}
+		
+	}
+
 	/*
      * Cria uma nova meta
      */
     @Transactional
 	public static Result novaMeta() {
     	resetaMensagemDeErro();
-		List<Meta> result = getDao().findAllByClassName("Meta");
-	
+			
 		Form<Meta> filledForm = metaForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(views.html.metas.render(result, filledForm));
+			return badRequest();
 		} else {
 			
 			try {

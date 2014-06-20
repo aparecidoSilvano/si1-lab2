@@ -17,9 +17,6 @@ public class Meta implements Comparable<Meta>{
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
-	@Column(name = "nome")
-	private String nome;
-	
 	@Column(name = "dataLimite")
 	private String dataLimite;
 		
@@ -33,7 +30,6 @@ public class Meta implements Comparable<Meta>{
 	private final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
 	
 	public Meta(){
-		nome = "";
 		dataLimite = "";
 		descricao = "";
 		status = false;
@@ -50,11 +46,11 @@ public class Meta implements Comparable<Meta>{
 	}
 
 
-	public Meta(String nome, String descricao, String dataLimite) throws DataInvalidaException{
+	public Meta(String descricao, String dataLimite) throws DataInvalidaException{
 		try {
+			setDescricao(descricao);
 			if(GerenciaDtas.validaData(dataLimite)){
 				this.dataLimite = dataLimite;
-				this.nome = nome;
 			}
 		} catch (DataInvalidaException dataException) {
 			throw dataException;
@@ -70,14 +66,7 @@ public class Meta implements Comparable<Meta>{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
+	
 	public String getDataLimite() {
 		return dataLimite;
 	}
@@ -106,7 +95,6 @@ public class Meta implements Comparable<Meta>{
 		result = prime * result
 				+ ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
@@ -135,11 +123,6 @@ public class Meta implements Comparable<Meta>{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
 			return false;
 		if (status != other.status)
 			return false;
